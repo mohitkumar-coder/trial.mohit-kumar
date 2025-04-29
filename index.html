@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class 8 Computer Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: #333;
+    }
+    .centered-start {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+    }
+    h1 {
+      font-size: 40px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    p {
+      color: rgba(0, 0, 0, 0.6);
+      margin-top: -10px;
+    }
+    #start-screen {
+      text-align: center;
+      background-color: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .start-btn {
+      padding: 12px 20px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .start-btn:hover {
+      background-color: #45a049;
+    }
+    #quiz-container {
+      display: none;
+      padding: 30px;
+      text-align: center;
+    }
+    .question-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 18px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      text-align: left;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .option-btn:hover {
+      background-color: #f2f2f2;
+    }
+    .option-btn:active {
+      background-color: #e0e0e0;
+    }
+    #result {
+      display: none;
+      text-align: center;
+      font-size: 24px;
+      margin-top: 30px;
+    }
+    #mistakes {
+      margin-top: 20px;
+      text-align: left;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+    .mistake-item {
+      margin-bottom: 20px;
+    }
+    .correct-answer {
+      color: green;
+    }
+    .wrong-answer {
+      color: red;
+    }
+    #timer {
+      font-size: 20px;
+      font-weight: bold;
+      color: #d9534f;
+      margin-bottom: 20px;
+    }
+    .logoff-btn {
+      padding: 12px 20px;
+      background-color: #d9534f;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logoff-btn:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Start Screen -->
+<div id="start-screen" class="centered-start">
+  <h1>Mohit Kumar</h1>
+  <p>Lok Kalyan International School</p>
+  <h2>Enter Your Name</h2>
+  <input type="text" id="user-name" placeholder="Your Name">
+  <br>
+  <button class="start-btn" onclick="startQuiz()">Start</button>
+</div>
+
+<!-- Quiz Area -->
+<div id="quiz-container">
+  <div id="timer">Time Left: 05:00</div>
+  <div class="question-box">
+    <p id="question-text"><strong>Question will appear here</strong></p>
+    <div id="options"></div>
+  </div>
+</div>
+
+<!-- Result Area -->
+<div id="result"></div>
+<div id="mistakes"></div>
+
+<script>
+  const questions = [
+    { q: "MAN Covers Area Up To.", options: ["10 Km", "50 Km", "1000 Km"], answer: 1 },
+    { q: "Creation Of Network Is Known As.", options: ["Server", "Networking", "Stand Alone Computer"], answer: 1 },
+    { q: "Endless Connectivity Is Possible Through …….. Network", options: ["Network", "Wireless", "Wi Fi"], answer: 1 },
+    { q: "Wi Fi Stands For Wireless Fidelity", options: ["True", "False", "None Of These"], answer: 0 },
+    { q: "Which Tool Is Used To Remove Dust Marks", options: ["Healing", "Crop", "Lasso"], answer: 0 },
+    { q: "Which Tool Is Used To Select Color", options: ["Paint Bucket", "Clones", "Eye Dropper"], answer: 2 },
+    { q: "Which Images Help To Monitor And Modify.", options: ["Tool Panel", "Pallets", "Menu Bar"], answer: 2 },
+    { q: "Bluetooth Uses RF Technology", options: ["True", "False", "None Of These"], answer: 0 },
+    { q: "Internet Is An Example Of ……..", options: ["LAN", "MAN", "WAN"], answer: 2 },
+    { q: "How Many Types Of Network Topologies Are There", options: ["Two", "Three", "Four"], answer: 1 },
+    { q: "Ring Topology Forms A Closed Circuit", options: ["True", "False", "None Of These"], answer: 0 },
+    { q: "Topology Refers To Sharing Of Computer Network", options: ["False", "True", "None Of These"], answer: 1 },
+    { q: "Many Pocket Device Comes With Built In ……..", options: ["Wi Fi", "Wi Max", "Bluetooth"], answer: 0 },
+    { q: "Which Of The Tool Is Used To Select Portion Of An Image Based On Colors", options: ["Move", "Magic Wand", "Lasso"], answer: 1 },
+    { q: "Which Key Combination Is Used To Deselect A Selection", options: ["Ctrl + Enter", "Ctrl + D", "Ctrl + F"], answer: 1 },
+    { q: "Cable Television Is An Example Of……..", options: ["WAN", "MAN", "LAN"], answer: 1 },
+    { q: "This Refers To The Physical Layout Of The Network Computer And Links", options: ["Networking", "Network Security", "Topology"], answer: 2 },
+    { q: "It Is Not Important To Secure Wi Fi Network", options: ["True", "False", "None Of These"], answer: 1 },
+    { q: "Wireless Network Are . …….. To Install And Maintain.", options: ["Infrared", "Wireless", "Cheaper"], answer: 2 }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+  let userName = "";
+  let userAnswers = [];
+  let timerInterval;
+  let timeLeft = 300; // 5 minutes in seconds
+
+  function startQuiz() {
+    const nameInput = document.getElementById('user-name');
+    if (!nameInput.value.trim()) {
+      alert("Please enter your name to start the quiz.");
+      return;
+    }
+    userName = nameInput.value.trim();
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('quiz-container').style.display = 'block';
+    showQuestion();
+    startTimer();
+  }
+
+  function showQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('question-text').innerHTML = `<strong>${currentQuestion + 1}. ${q.q}</strong>`;
+    const optionsContainer = document.getElementById('options');
+    optionsContainer.innerHTML = '';
+    q.options.forEach((opt, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt;
+      btn.onclick = () => handleAnswer(index);
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(selected) {
+    userAnswers.push(selected);
+    if (selected === questions[currentQuestion].answer) {
+      score++;
+    }
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      clearInterval(timerInterval);
+      showResult();
+    }
+  }
+
+  function showResult(timeout = false) {
+    document.getElementById('quiz-container').style.display = 'none';
+    const resultBox = document.getElementById('result');
+    const mistakesBox = document.getElementById('mistakes');
+    resultBox.style.display = 'block';
+    mistakesBox.style.display = 'block';
+
+    resultBox.innerHTML = timeout
+      ? `<p>⏰ Time's up, ${userName}!<br>You scored ${score} out of ${questions.length}.</p>`
+      : `<p>🎉 Well done, ${userName}!<br>You scored ${score} out of ${questions.length}.</p>`;
+
+    let mistakesHTML = `<h3>Your Mistakes:</h3>`;
+    questions.forEach((q, i) => {
+      const userAnswer = userAnswers[i];
+      if (userAnswer !== undefined && userAnswer !== q.answer) {
+        mistakesHTML += `
+          <div class="mistake-item">
+            <strong>Q${i + 1}: ${q.q}</strong><br>
+            <span class="wrong-answer">❌ Your Answer: ${q.options[userAnswer]}</span><br>
+            <span class="correct-answer">✅ Correct Answer: ${q.options[q.answer]}</span>
+          </div>
+        `;
+      }
+    });
+    mistakesBox.innerHTML = mistakesHTML;
+
+    const logoutBtn = document.createElement('button');
+    logoutBtn.innerText = "Log Off";
+    logoutBtn.className = 'logoff-btn';
+    logoutBtn.onclick = resetQuiz;
+    resultBox.appendChild(logoutBtn);
+  }
+
+  function resetQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    timeLeft = 300;
+    userName = "";
+    userAnswers = [];
+    clearInterval(timerInterval);
+    document.getElementById('user-name').value = '';
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('mistakes').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+    document.getElementById('timer').innerText = 'Time Left: 05:00';
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      document.getElementById('timer').innerText = `Time Left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        showResult(true);
+      }
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
